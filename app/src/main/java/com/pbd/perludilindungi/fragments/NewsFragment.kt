@@ -6,9 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.pbd.perludilindungi.News
+import com.pbd.perludilindungi.NewsAdapter
 import com.pbd.perludilindungi.NewsModel
 import com.pbd.perludilindungi.R
 import com.pbd.perludilindungi.retrofit.ApiService
@@ -19,10 +23,7 @@ import retrofit2.Response
 class NewsFragment : Fragment() {
 
     private val TAG: String = "NewsFragment"
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    lateinit var newsAdapter: NewsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,28 +35,54 @@ class NewsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
         getNewsDataFromApi()
         Log.d(TAG, "TES FRAGMENT")
-        val newsText : TextView = view.findViewById(R.id.news_text)
-        newsText.setOnClickListener{
-            Toast.makeText(context, "News Fragment", Toast.LENGTH_SHORT).show()
+
+    }
+
+    private fun setupRecyclerView() {
+        newsAdapter = NewsAdapter(arrayListOf(), object : NewsAdapter.OnAdapterListener{
+            override fun onClick(result: News) {
+                val detailFragment = NewsDetailFragment()
+                val mBundle = Bundle()
+                mBundle.putString(NewsDetailFragment.EXTRA_URL, result.link[0] ?: "www.google.com")
+
+                detailFragment.arguments = mBundle
+                val mFragmentManager = parentFragmentManager
+                mFragmentManager?.beginTransaction()?.apply {
+                    replace(R.id.fragment_container, detailFragment, NewsDetailFragment::class.java.simpleName)
+                    addToBackStack(null)
+                    commit()
+                }
+
+//                Toast.makeText(requireActivity().applicationContext,result.link[0] ?: "Tes", Toast.LENGTH_SHORT ).show()
+            }
+        })
+        val recyclerView: RecyclerView = requireView().findViewById(R.id.news_list)
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(requireActivity().applicationContext)
+            adapter = newsAdapter
         }
     }
 
     private fun getNewsDataFromApi() {
+        val progressBar: ProgressBar = requireView().findViewById(R.id.progress_bar)
+        progressBar.visibility = View.VISIBLE
         ApiService.endpoint.getNews()
             .enqueue(object : Callback<NewsModel> {
                 override fun onResponse(call: Call<NewsModel>, response: Response<NewsModel>) {
+                    progressBar.visibility = View.GONE
                     if (response.isSuccessful){
                         val results = response.body()
-                        results?.let { printItem(it.results) }
+                        results?.let { showData(it) }
                     }
                 }
 
                 override fun onFailure(call: Call<NewsModel>, t: Throwable) {
+                    progressBar.visibility = View.GONE
                     printLog(t.toString())
                 }
-
             })
     }
 
@@ -63,9 +90,14 @@ class NewsFragment : Fragment() {
         Log.d(TAG, message)
     }
 
-    private fun printItem(items: List<News>){
-        for (news in items){
-            printLog("News : ${news.link[0]} ")
+    private fun showData(items: NewsModel){
+        if (items.success){
+            val news = items.results
+            newsAdapter.setData(news)
+            for (news in items.results){
+                printLog("News : ${news.link[0]} ")
+            }
         }
+
     }
 }

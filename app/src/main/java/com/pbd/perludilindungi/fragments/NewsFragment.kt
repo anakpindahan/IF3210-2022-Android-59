@@ -37,8 +37,6 @@ class NewsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         getNewsDataFromApi()
-        Log.d(TAG, "TES FRAGMENT")
-
     }
 
     private fun setupRecyclerView() {
@@ -56,7 +54,6 @@ class NewsFragment : Fragment() {
                     commit()
                 }
 
-//                Toast.makeText(requireActivity().applicationContext,result.link[0] ?: "Tes", Toast.LENGTH_SHORT ).show()
             }
         })
         val recyclerView: RecyclerView = requireView().findViewById(R.id.news_list)
@@ -94,9 +91,6 @@ class NewsFragment : Fragment() {
         if (items.success){
             val news = items.results
             newsAdapter.setData(news)
-            for (news in items.results){
-                printLog("News : ${news.link[0]} ")
-            }
         }
 
     }

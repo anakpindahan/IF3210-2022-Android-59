@@ -2,17 +2,23 @@ package com.pbd.perludilindungi
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.pbd.perludilindungi.fragments.BookmarkFragment
 import com.pbd.perludilindungi.fragments.NewsFragment
 import com.pbd.perludilindungi.fragments.VaksinLocationFragment
+import com.pbd.perludilindungi.retrofit.ApiService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
     private val newsFragment = NewsFragment()
     private val bookmarkFragment = BookmarkFragment()
     private val vaksinLocationFragment = VaksinLocationFragment()
+    private val TAG: String = "NewsFragment"
 
     lateinit var bottomNavView : BottomNavigationView
 
@@ -23,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         replaceFragment(newsFragment)
 
         bottomNavView = findViewById(R.id.bottom_nav)
-        bottomNavView.setOnNavigationItemSelectedListener {
+        bottomNavView.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.ic_news -> replaceFragment(newsFragment)
                 R.id.ic_location -> replaceFragment(vaksinLocationFragment)
@@ -31,6 +37,7 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+        Log.d(TAG, "HALOOO")
     }
 
     private fun replaceFragment(fragment: Fragment?){

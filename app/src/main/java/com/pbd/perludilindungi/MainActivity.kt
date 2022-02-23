@@ -8,17 +8,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.pbd.perludilindungi.fragments.BookmarkFragment
 import com.pbd.perludilindungi.fragments.NewsFragment
 import com.pbd.perludilindungi.fragments.VaksinLocationFragment
-import com.pbd.perludilindungi.retrofit.ApiService
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
     private val newsFragment = NewsFragment()
     private val bookmarkFragment = BookmarkFragment()
     private val vaksinLocationFragment = VaksinLocationFragment()
-    private val TAG: String = "NewsFragment"
 
     lateinit var bottomNavView : BottomNavigationView
 
@@ -37,7 +32,6 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-        Log.d(TAG, "HALOOO")
     }
 
     private fun replaceFragment(fragment: Fragment?){

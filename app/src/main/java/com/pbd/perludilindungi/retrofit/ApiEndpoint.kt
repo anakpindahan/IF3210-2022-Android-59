@@ -11,4 +11,6 @@ interface ApiEndpoint {
     fun getNews(): Call<NewsModel>
     @GET("get-province")
     fun getProvince(): Call<ProvinceCityModel>
+    @GET("get-city")
+    fun getCity(): Call<ProvinceCityModel>
 }

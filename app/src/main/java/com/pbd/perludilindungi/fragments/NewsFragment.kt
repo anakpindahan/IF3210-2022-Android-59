@@ -15,7 +15,7 @@ import com.pbd.perludilindungi.News
 import com.pbd.perludilindungi.NewsAdapter
 import com.pbd.perludilindungi.NewsModel
 import com.pbd.perludilindungi.R
-import com.pbd.perludilindungi.retrofit.ApiService
+import com.pbd.perludilindungi.services.retrofit.ApiService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -38,6 +38,10 @@ class NewsFragment : Fragment() {
         setupRecyclerView()
         getNewsDataFromApi()
     }
+
+
+
+
 
     private fun setupRecyclerView() {
         newsAdapter = NewsAdapter(arrayListOf(), object : NewsAdapter.OnAdapterListener{

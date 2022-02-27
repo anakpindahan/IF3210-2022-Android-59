@@ -3,6 +3,7 @@ package com.pbd.perludilindungi
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.pbd.perludilindungi.fragments.BookmarkFragment

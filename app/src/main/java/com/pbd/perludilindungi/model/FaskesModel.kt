@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class FaskesModel (
 
-    @SerializedName("success"     ) var success    : Boolean?        = null,
+    @SerializedName("success"     ) var success    : Boolean,
     @SerializedName("message"     ) var message    : String?         = null,
     @SerializedName("count_total" ) var countTotal : Int?            = null,
     @SerializedName("data"        ) var data       : List<Data> = arrayListOf()

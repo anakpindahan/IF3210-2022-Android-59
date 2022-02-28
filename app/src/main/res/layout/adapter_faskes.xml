@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/faskes_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:layout_gravity="center"
+    android:layout_marginLeft="8dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginBottom="2dp"
+    card_view:cardCornerRadius="20dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/faskes_carditem_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Nama Faskes"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintHorizontal_bias="0.049"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent"
+            card_view:layout_constraintVertical_bias="0.049" />
+
+        <TextView
+            android:id="@+id/faskes_carditem_address"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintHorizontal_bias="0.288"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent"
+            card_view:layout_constraintVertical_bias="0.503"
+            tools:text="Alamat fakses" />
+
+        <TextView
+            android:id="@+id/faskes_carditem_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="No telepon"
+            android:textColor="@color/black"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintHorizontal_bias="0.041"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent"
+            card_view:layout_constraintVertical_bias="0.832" />
+
+        <TextView
+            android:id="@+id/faskes_carditem_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Kode Faskes"
+            android:textColor="@color/black"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintHorizontal_bias="0.952"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent"
+            card_view:layout_constraintVertical_bias="0.832" />
+
+        <TextView
+            android:id="@+id/faskes_carditem_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Jenis Faskes"
+            android:textColor="@color/black"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintHorizontal_bias="0.948"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent"
+            card_view:layout_constraintVertical_bias="0.099" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.cardview.widget.CardView>

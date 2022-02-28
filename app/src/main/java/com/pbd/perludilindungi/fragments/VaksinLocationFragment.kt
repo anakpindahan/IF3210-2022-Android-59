@@ -8,10 +8,9 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
-import com.pbd.perludilindungi.FaskesModel
-import com.pbd.perludilindungi.Place
-import com.pbd.perludilindungi.ProvinceCityModel
-import com.pbd.perludilindungi.R
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.pbd.perludilindungi.*
 import com.pbd.perludilindungi.databinding.FragmentVaksinLocationBinding
 import com.pbd.perludilindungi.services.retrofit.ApiService
 import retrofit2.Call
@@ -23,6 +22,7 @@ import kotlin.collections.ArrayList
 class VaksinLocationFragment : Fragment() {
     private var _binding : FragmentVaksinLocationBinding? = null
     private val binding get() = _binding!!
+    lateinit var faskesAdapter: FaskesAdapter
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?):
             View {
         // Inflate the layout for this fragment
@@ -35,9 +35,14 @@ class VaksinLocationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         getProvinceFromAPI()
         System.out.println("Hello from on View Created")
-        val province_auto_complete_text_view = view?.findViewById(R.id.ProvinceDropdownMenu) as AutoCompleteTextView
+        val province_auto_complete_text_view = view.findViewById(R.id.ProvinceDropdownMenu) as AutoCompleteTextView
         province_auto_complete_text_view.setOnItemClickListener { _, _, _, _ ->
             getCityFromAPI()
+        }
+        val city_auto_complete_text_view = view.findViewById(R.id.CityDropdownMenu) as AutoCompleteTextView
+        city_auto_complete_text_view.setOnItemClickListener { _, _, _, _ ->
+            setupRecyclerView()
+            getFaksesFromAPI()
         }
 
     }
@@ -87,26 +92,26 @@ class VaksinLocationFragment : Fragment() {
     }
 
 
-//    private fun getFaksesFromAPI(){
-////        get String from Province & City AutoCompleteTextView
-//        val selectedProvince =  getSelectedProvince()
-//        val selectedCity = getSelectedCity()
-//        ApiService.endpoint.getFaskes(selectedProvince,selectedCity)
-//            .enqueue(object : Callback<FaskesModel> {
-//                override fun onResponse(call: Call<FaskesModel>, response: Response<FaskesModel>) {
-//                    if (response.isSuccessful){
-//                        val results = response.body()
-//                        results?.let {
-//                            setArrayOfFaskes(it.data)
-//                        }
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call<FaskesModel>, t: Throwable) {
-//                    Log.d("Faskes Fragment Error : ",t.toString())
-//                }
-//            })
-//    }
+    private fun getFaksesFromAPI(){
+//        get String from Province & City AutoCompleteTextView
+        val selectedProvince =  getSelectedProvince()
+        val selectedCity = getSelectedCity()
+        ApiService.endpoint.getFaskes(selectedProvince,selectedCity)
+            .enqueue(object : Callback<FaskesModel> {
+                override fun onResponse(call: Call<FaskesModel>, response: Response<FaskesModel>) {
+                    if (response.isSuccessful){
+                        val results = response.body()
+                        results?.let {
+                            showData(it)
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<FaskesModel>, t: Throwable) {
+                    Log.d("Faskes Fragment Error : ",t.toString())
+                }
+            })
+    }
 
 
     //[Getter] untuk mendapatkan provinsi dan kota
@@ -123,7 +128,7 @@ class VaksinLocationFragment : Fragment() {
 
 
 
-    // function for make rovince and city dropdown
+    // function for make province and city dropdown
     private fun setArrayOfProvince(PlaceList : List<Place>) {
         val dropdownArray = ArrayList<String>()
         for (item in PlaceList) {
@@ -151,20 +156,27 @@ class VaksinLocationFragment : Fragment() {
         binding.CityDropdownMenu?.setAdapter(adapter)
     }
 
-//    private fun setArrayOfFaskes(FaskesList : List<Data>) {
-//        val dropdownArray = ArrayList<String>()
-//        for (item in PlaceList) {
-//            dropdownArray.add(item.value)
-//        }
-//        val adapter = ArrayAdapter(
-//            requireContext(),
-//            R.layout.dropdown_list_menu,
-//            dropdownArray
-//        )
-//        System.out.println("Hello from Set Array of City")
-//        binding.CityDropdownMenu?.setAdapter(adapter)
-//    }
 
+    private fun setupRecyclerView() {
+        faskesAdapter = FaskesAdapter(arrayListOf(), object : FaskesAdapter.OnAdapterListener{
+            override fun onClick(result: Data) {
+                val detailLocationFragment = VaksinLocationDetailFragment()
+            }
+        })
+        val recyclerView: RecyclerView = requireView().findViewById(R.id.faskes_list)
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(requireActivity().applicationContext)
+            adapter = faskesAdapter
+        }
+    }
+
+    private fun showData(items: FaskesModel){
+        if (items.success){
+            val faskes = items.data
+            faskesAdapter.setData(faskes)
+        }
+
+    }
     // biar ga memory leak
     override fun onDestroy(){
         super.onDestroy()

@@ -19,7 +19,7 @@ class FaskesAdapter(val results: ArrayList<Data>, val listener: FaskesAdapter.On
         holder.tvAddress.text = result.alamat
         holder.tvPhone.text = result.telp
         holder.tvCode.text = result.kode
-        holder.tvType.text = result.jenisFaskes
+        holder.tvType.text = result.jenis_faskes
         holder.view.setOnClickListener{
             listener.onClick(result)
         }
@@ -39,6 +39,7 @@ class FaskesAdapter(val results: ArrayList<Data>, val listener: FaskesAdapter.On
     }
     fun setData (data : List<Data>){
         System.out.println("Halo dari setData faskesAdapter")
+        System.out.println(data)
         results.clear()
         results.addAll(data)
         notifyDataSetChanged()

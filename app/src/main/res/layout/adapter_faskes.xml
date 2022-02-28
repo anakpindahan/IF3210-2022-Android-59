@@ -10,7 +10,9 @@
     android:layout_marginTop="2dp"
     android:layout_marginRight="8dp"
     android:layout_marginBottom="2dp"
-    card_view:cardCornerRadius="20dp">
+    card_view:cardCornerRadius="10dp"
+    android:layout_margin="10dp"
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,12 +20,12 @@
 
         <TextView
             android:id="@+id/faskes_carditem_title"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             tools:text="Nama Faskes"
             android:textColor="@color/black"
             android:textStyle="bold"
-            android:textSize="30sp"
+            android:textSize="24sp"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintHorizontal_bias="0.049"
@@ -40,35 +42,33 @@
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintHorizontal_bias="0.288"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent"
-            card_view:layout_constraintVertical_bias="0.503"
+            card_view:layout_constraintTop_toBottomOf="@+id/faskes_carditem_title"
+            card_view:layout_constraintVertical_bias="0.338"
             tools:text="Alamat fakses" />
 
         <TextView
             android:id="@+id/faskes_carditem_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="No telepon"
             android:textColor="@color/black"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintHorizontal_bias="0.041"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent"
-            card_view:layout_constraintVertical_bias="0.832" />
+            card_view:layout_constraintTop_toBottomOf="@+id/faskes_carditem_address"
+            tools:text="No telepon" />
 
         <TextView
             android:id="@+id/faskes_carditem_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Kode Faskes"
             android:textColor="@color/black"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintHorizontal_bias="0.952"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent"
-            card_view:layout_constraintVertical_bias="0.832" />
+            card_view:layout_constraintTop_toBottomOf="@+id/faskes_carditem_address"
+            tools:text="Kode Faskes" />
 
         <TextView
             android:id="@+id/faskes_carditem_type"

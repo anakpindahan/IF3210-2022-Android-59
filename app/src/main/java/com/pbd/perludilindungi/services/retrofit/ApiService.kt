@@ -1,4 +1,4 @@
-package com.pbd.perludilindungi.retrofit
+package com.pbd.perludilindungi.services.retrofit
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

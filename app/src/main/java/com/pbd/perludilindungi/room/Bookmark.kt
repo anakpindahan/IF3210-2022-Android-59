@@ -22,6 +22,6 @@ data class Bookmark(
     @ColumnInfo(name = "telp") val telp: String?,
     @ColumnInfo(name = "jenis_faskes") val jenis_faskes: String?,
     @ColumnInfo(name = "kelas_rs") val kelas_rs: String?,
-    @ColumnInfo(name = "status") val status: String?,
+    @ColumnInfo(name = "status") val status: String,
     @ColumnInfo(name = "source_data") val sourceData: String?,
 ) : Parcelable

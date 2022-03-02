@@ -34,25 +34,25 @@ class VaksinLocationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        val provinceAutoCompleteTextView = view.findViewById(R.id.ProvinceDropdownMenu) as AutoCompleteTextView
+        val provinceAutoCompleteTextView =
+            view.findViewById(R.id.ProvinceDropdownMenu) as AutoCompleteTextView
         provinceAutoCompleteTextView.setOnClickListener {
             getProvinceFromAPI()
         }
         provinceAutoCompleteTextView.setOnItemClickListener { _, _, _, _ ->
             getCityFromAPI()
         }
-        val cityAutoCompleteTextView = view.findViewById(R.id.CityDropdownMenu) as AutoCompleteTextView
+        val cityAutoCompleteTextView =
+            view.findViewById(R.id.CityDropdownMenu) as AutoCompleteTextView
         cityAutoCompleteTextView.setOnItemClickListener { _, _, _, _ ->
-
             setupRecyclerView()
             getFaskesFromAPI()
         }
-
     }
+
     //function for setup recyclerview for faskes
     private fun setupRecyclerView() {
-        faskesAdapter = FaskesAdapter(arrayListOf(), object : FaskesAdapter.OnAdapterListener{
+        faskesAdapter = FaskesAdapter(arrayListOf(), object : FaskesAdapter.OnAdapterListener {
             override fun onClick(result: Data) {
                 val detailLocationFragment = VaksinLocationDetailFragment()
                 val mbundle = Bundle()
@@ -60,11 +60,14 @@ class VaksinLocationFragment : Fragment() {
                 detailLocationFragment.arguments = mbundle
                 val mFragmentManager = parentFragmentManager
                 mFragmentManager.beginTransaction().apply {
-                    replace(R.id.fragment_container, detailLocationFragment, VaksinLocationDetailFragment::class.java.simpleName)
+                    replace(
+                        R.id.fragment_container,
+                        detailLocationFragment,
+                        VaksinLocationDetailFragment::class.java.simpleName
+                    )
                     addToBackStack(null)
                     commit()
                 }
-
             }
         })
         val recyclerView: RecyclerView = requireView().findViewById(R.id.faskes_list)
@@ -74,35 +77,37 @@ class VaksinLocationFragment : Fragment() {
         }
     }
 
-
-    private fun getProvinceFromAPI(){
-
+    private fun getProvinceFromAPI() {
         ApiService.endpoint.getProvince()
             .enqueue(object : Callback<ProvinceCityModel> {
-                override fun onResponse(call: Call<ProvinceCityModel>, response: Response<ProvinceCityModel>) {
-
-                    if (response.isSuccessful){
+                override fun onResponse(
+                    call: Call<ProvinceCityModel>,
+                    response: Response<ProvinceCityModel>
+                ) {
+                    if (response.isSuccessful) {
                         val results = response.body()
                         results?.let {
                             setArrayOfProvince(it.results)
                         }
                     }
                 }
-                override fun onFailure(call: Call<ProvinceCityModel>, t: Throwable) {
 
-                    Log.d("GET Province Error : ",t.toString())
+                override fun onFailure(call: Call<ProvinceCityModel>, t: Throwable) {
+                    Log.d("GET Province Error : ", t.toString())
                 }
             })
     }
-    private fun getCityFromAPI(){
-//        get String from Province AutoCompleteTextView
-        val selectedItem =  getSelectedProvince()
 
+    private fun getCityFromAPI() {
+//        get String from Province AutoCompleteTextView
+        val selectedItem = getSelectedProvince()
         ApiService.endpoint.getCity(selectedItem)
             .enqueue(object : Callback<ProvinceCityModel> {
-                override fun onResponse(call: Call<ProvinceCityModel>, response: Response<ProvinceCityModel>) {
-
-                    if (response.isSuccessful){
+                override fun onResponse(
+                    call: Call<ProvinceCityModel>,
+                    response: Response<ProvinceCityModel>
+                ) {
+                    if (response.isSuccessful) {
                         val results = response.body()
                         results?.let {
                             setArrayOfCity(it.results)
@@ -111,21 +116,22 @@ class VaksinLocationFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<ProvinceCityModel>, t: Throwable) {
-                    Log.d("GET City Error : ",t.toString())
+                    Log.d("GET City Error : ", t.toString())
                 }
             })
     }
-    private fun getFaskesFromAPI(){
+
+    private fun getFaskesFromAPI() {
 //        get String from Province & City AutoCompleteTextView
-        val selectedProvince =  getSelectedProvince()
+        val selectedProvince = getSelectedProvince()
         val selectedCity = getSelectedCity()
         val progressBar: ProgressBar = requireView().findViewById(R.id.progress_barFaskes)
         progressBar.visibility = View.VISIBLE
-        ApiService.endpoint.getFaskes(selectedProvince,selectedCity)
+        ApiService.endpoint.getFaskes(selectedProvince, selectedCity)
             .enqueue(object : Callback<FaskesModel> {
                 override fun onResponse(call: Call<FaskesModel>, response: Response<FaskesModel>) {
                     progressBar.visibility = View.GONE
-                    if (response.isSuccessful){
+                    if (response.isSuccessful) {
                         val results = response.body()
                         results?.let {
                             showData(it)
@@ -135,29 +141,31 @@ class VaksinLocationFragment : Fragment() {
 
                 override fun onFailure(call: Call<FaskesModel>, t: Throwable) {
                     progressBar.visibility = View.GONE
-                    Log.d("GET Faskes Error : ",t.toString())
+                    Log.d("GET Faskes Error : ", t.toString())
                 }
             })
     }
 
     //[Getter] untuk mendapatkan provinsi dan kota
-    private fun getSelectedProvince() : String {
-        val provinceAutoCompleteTextView = view?.findViewById(R.id.ProvinceDropdownMenu) as AutoCompleteTextView
+    private fun getSelectedProvince(): String {
+        val provinceAutoCompleteTextView =
+            view?.findViewById(R.id.ProvinceDropdownMenu) as AutoCompleteTextView
 
         return provinceAutoCompleteTextView.text.toString()
     }
-    private fun getSelectedCity() : String {
-        val cityAutoCompleteTextView = view?.findViewById(R.id.CityDropdownMenu) as AutoCompleteTextView
+
+    private fun getSelectedCity(): String {
+        val cityAutoCompleteTextView =
+            view?.findViewById(R.id.CityDropdownMenu) as AutoCompleteTextView
         return cityAutoCompleteTextView.text.toString()
     }
 
     // function for make province and city dropdown list
-    private fun setArrayOfProvince(PlaceList : List<Place>) {
+    private fun setArrayOfProvince(PlaceList: List<Place>) {
         val dropdownArray = ArrayList<String>()
         for (item in PlaceList) {
             dropdownArray.add(item.value)
         }
-
         val adapter = getActivity()?.let {
             ArrayAdapter(
                 it.getBaseContext(),
@@ -168,7 +176,8 @@ class VaksinLocationFragment : Fragment() {
         val provinceTextView = view?.findViewById(R.id.ProvinceDropdownMenu) as AutoCompleteTextView
         provinceTextView.setAdapter(adapter)
     }
-    private fun setArrayOfCity(PlaceList : List<Place>) {
+
+    private fun setArrayOfCity(PlaceList: List<Place>) {
         val dropdownArray = ArrayList<String>()
         for (item in PlaceList) {
             dropdownArray.add(item.value)
@@ -185,12 +194,10 @@ class VaksinLocationFragment : Fragment() {
 
     }
 
-    private fun showData(items: FaskesModel){
-        if (items.success){
+    private fun showData(items: FaskesModel) {
+        if (items.success) {
             val faskes = items.data
             faskesAdapter.setData(faskes)
         }
-
     }
-
 }

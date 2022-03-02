@@ -6,24 +6,73 @@
     android:layout_height="match_parent"
     tools:context=".fragments.VaksinLocationFragment">
 
+
+    <TextView
+        android:id="@+id/textCariKota"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cari Kota"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.086"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.245" />
+
+    <TextView
+        android:id="@+id/textCariFaskes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cari Faskes"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.098"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.039" />
+
+    <TextView
+        android:id="@+id/textCariProvinsi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cari Provinsi"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.093"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.115" />
+
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputProvince"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="104dp"
         android:layout_marginRight="30dp"
         android:hint="Provinsi"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.266"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
         <AutoCompleteTextView
             android:id="@+id/ProvinceDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:dropDownHeight="300dp"
-            android:inputType="none"></AutoCompleteTextView>
+            android:inputType="none">
+        </AutoCompleteTextView>
+
+
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -32,7 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="196dp"
         android:layout_marginRight="30dp"
         android:hint="Kota"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +99,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/faskes_list"
         android:layout_width="match_parent"
-        android:layout_height="492dp"
+        android:layout_height="450dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -59,6 +108,17 @@
         app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/adapter_faskes" />
 
+    <ProgressBar
+        android:id="@+id/progress_barFaskes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.635" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

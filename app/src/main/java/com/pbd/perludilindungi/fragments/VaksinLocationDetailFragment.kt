@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.pbd.perludilindungi.Data
@@ -31,9 +32,7 @@ class VaksinLocationDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (arguments != null){
-            System.out.println("Hi from onView Created vaksin location detail, there is argument")
             val dataFaskes = arguments?.getParcelable<Data>("EXTRA_FASKES")
-            System.out.println(dataFaskes?.jenis_faskes)
             val nameFaskes = view.findViewById(R.id.faskes_name) as TextView
             nameFaskes.text = dataFaskes?.nama
             val codeFaskes = view.findViewById(R.id.faskes_code) as TextView
@@ -44,7 +43,15 @@ class VaksinLocationDetailFragment : Fragment() {
             phoneFaskes.text = dataFaskes?.telp
             val typeFaskes = view.findViewById(R.id.faskes_type) as TextView
             typeFaskes.text = dataFaskes?.jenis_faskes
-
+            if(dataFaskes?.status.equals("Siap Vaksinasi")){
+                val imageFaskesTrue = view.findViewById(R.id.image_status_true) as ImageView
+                imageFaskesTrue.visibility = View.VISIBLE
+            }else{
+                val imageFaskesFalse = view.findViewById(R.id.image_status_false) as ImageView
+                imageFaskesFalse.visibility = View.VISIBLE
+            }
+            val statusFaskes = view.findViewById(R.id.faskes_status) as TextView
+            statusFaskes.text = dataFaskes?.status
             val googleMapsButton = view.findViewById(R.id.buttonGoogleMaps) as Button
             googleMapsButton.setOnClickListener {
                 openGoogleMaps(dataFaskes?.latitude,dataFaskes?.longitude)

@@ -38,7 +38,6 @@ class VaksinLocationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getProvinceFromAPI()
-        System.out.println("Hello from on View Created")
         val province_auto_complete_text_view = view.findViewById(R.id.ProvinceDropdownMenu) as AutoCompleteTextView
         province_auto_complete_text_view.setOnItemClickListener { _, _, _, _ ->
             getCityFromAPI()
@@ -134,8 +133,6 @@ class VaksinLocationFragment : Fragment() {
     //[Getter] untuk mendapatkan provinsi dan kota
     private fun getSelectedProvince() : String {
         val province_auto_complete_text_view = view?.findViewById(R.id.ProvinceDropdownMenu) as AutoCompleteTextView
-        System.out.println("from get Selected Province")
-        System.out.println(province_auto_complete_text_view.text.toString())
         return province_auto_complete_text_view.text.toString()
     }
     private fun getSelectedCity() : String {
@@ -154,7 +151,6 @@ class VaksinLocationFragment : Fragment() {
             R.layout.dropdown_list_menu,
             dropdownArray
         )
-        System.out.println("Hello from Set Array of Province")
         binding.ProvinceDropdownMenu?.setAdapter(adapter)
     }
     private fun setArrayOfCity(PlaceList : List<Place>) {
@@ -167,15 +163,12 @@ class VaksinLocationFragment : Fragment() {
             R.layout.dropdown_list_menu,
             dropdownArray
         )
-        System.out.println("Hello from Set Array of City")
         binding.CityDropdownMenu?.setAdapter(adapter)
     }
 
     private fun showData(items: FaskesModel){
         if (items.success){
             val faskes = items.data
-            System.out.println("Halo dari showData")
-            System.out.println(faskes)
             faskesAdapter.setData(faskes)
         }
 

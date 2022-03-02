@@ -1,10 +1,8 @@
 package com.pbd.perludilindungi.room
 
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 
+@Dao
 interface BookmarkDao {
     @Insert
     suspend fun addBookmark(bookmark : Bookmark)
@@ -16,7 +14,7 @@ interface BookmarkDao {
     suspend fun deleteBookmark(bookmark: Bookmark)
 
     @Query("SELECT * FROM bookmarks")
-    suspend fun getBookmarks(bookmark: Bookmark) : List<Bookmark>
+    suspend fun getBookmarks() : List<Bookmark>
 
     @Query("SELECT * FROM bookmarks WHERE faskes_id = (:faskesId)")
     suspend fun getBookmarkByFaskesId(faskesId: Int): Bookmark

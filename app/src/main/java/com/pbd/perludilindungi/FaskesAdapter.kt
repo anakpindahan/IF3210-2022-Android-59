@@ -38,8 +38,6 @@ class FaskesAdapter(val results: ArrayList<Data>, val listener: FaskesAdapter.On
         var tvType: TextView = view.findViewById(R.id.faskes_carditem_type)
     }
     fun setData (data : List<Data>){
-        System.out.println("Halo dari setData faskesAdapter")
-        System.out.println(data)
         results.clear()
         results.addAll(data)
         notifyDataSetChanged()

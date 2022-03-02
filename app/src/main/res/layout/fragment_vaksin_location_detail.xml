@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:text="TextView"
+        android:text="Nama Faskes"
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -79,6 +79,61 @@
         app:layout_constraintTop_toBottomOf="@+id/faskes_name"
         app:layout_constraintVertical_bias="0.024" />
 
+
+    <ImageView
+        android:id="@+id/image_status_true"
+        android:layout_width="226dp"
+        android:layout_height="234dp"
+        android:src="@drawable/green_check"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible"/>
+
+
+    <ImageView
+        android:id="@+id/image_status_false"
+        android:layout_width="226dp"
+        android:layout_height="234dp"
+        android:src="@drawable/red_cross"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible"
+         />
+
+    <TextView
+        android:id="@+id/faskes_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="STATUS VAKSINASI"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/faskes_name"
+        app:layout_constraintVertical_bias="0.724" />
+
+    <TextView
+        android:id="@+id/faskes_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="Fasilitas ini"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.467"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/faskes_name"
+        app:layout_constraintVertical_bias="0.684" />
+
     <Button
         android:id="@+id/buttonGoogleMaps"
         android:layout_width="wrap_content"
@@ -86,9 +141,22 @@
         android:text="Open in Google Maps"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.462"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.723" />
+        app:layout_constraintVertical_bias="0.816" />
+
+    <Button
+        android:id="@+id/buttonBookMark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BookMark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.453"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.906" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

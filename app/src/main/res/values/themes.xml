@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.PerluDilindungi" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.PerluDilindungi" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">#41A7F6</item>
         <item name="colorPrimaryVariant">#198AE1</item>

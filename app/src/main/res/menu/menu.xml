@@ -4,15 +4,15 @@
         android:id="@+id/ic_news"
         android:enabled="true"
         android:icon="@drawable/ic_news"
-        android:title="News"/>
+        android:title="@string/news"/>
     <item
         android:id="@+id/ic_location"
         android:enabled="true"
         android:icon="@drawable/ic_location"
-        android:title="Location"/>
+        android:title="@string/vaksin_location"/>
     <item
         android:id="@+id/ic_bookmark"
         android:enabled="true"
         android:icon="@drawable/ic_bookmark_selector"
-        android:title="Bookmark"/>
+        android:title="@string/bookmark"/>
 </menu>

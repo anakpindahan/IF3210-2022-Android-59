@@ -46,11 +46,11 @@ class NewsFragment : Fragment() {
             override fun onClick(result: News) {
                 val detailFragment = NewsDetailFragment()
                 val mBundle = Bundle()
-                mBundle.putString(NewsDetailFragment.EXTRA_URL, result.link[0] ?: "www.google.com")
+                mBundle.putString(NewsDetailFragment.EXTRA_URL, result.link[0])
 
                 detailFragment.arguments = mBundle
                 val mFragmentManager = parentFragmentManager
-                mFragmentManager?.beginTransaction()?.apply {
+                mFragmentManager.beginTransaction().apply {
                     replace(R.id.fragment_container, detailFragment, NewsDetailFragment::class.java.simpleName)
                     addToBackStack(null)
                     commit()

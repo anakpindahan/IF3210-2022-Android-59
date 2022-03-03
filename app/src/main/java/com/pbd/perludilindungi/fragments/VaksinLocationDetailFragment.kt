@@ -95,31 +95,6 @@ class VaksinLocationDetailFragment : Fragment() {
             }
         }
     }
-//    }    private fun setBookmarkIcon(dataFaskes: Data?, bookmarkButton: Button) = GlobalScope.launch(Dispatchers.Main) {
-//        val bookmark: Bookmark? =
-//            db.bookmarkDao().getBookmarkByFaskesId(dataFaskes!!.id)
-//        if (bookmark == null) {
-//            Log.d("SETBOOKMARK", "at if")
-//            withContext(Dispatchers.Main) {
-//                bookmarkButton.setCompoundDrawablesWithIntrinsicBounds(
-//                    R.drawable.ic_add,
-//                    0,
-//                    0,
-//                    0
-//                )
-//            }
-//        } else {
-//            Log.d("SETBOOKMARK", "here")
-//            withContext(Dispatchers.Main) {
-//                bookmarkButton.setCompoundDrawablesWithIntrinsicBounds(
-//                    R.drawable.ic_remove,
-//                    0,
-//                    0,
-//                    0
-//                )
-//            }
-//        }
-//    }
 
     private fun updateBookmark(
         dataFaskes: Data?, bookmarkButton
@@ -156,7 +131,7 @@ class VaksinLocationDetailFragment : Fragment() {
                 )
             }
         } else {
-            db.bookmarkDao().deleteBookmark(bookmark!!)
+            db.bookmarkDao().deleteBookmark(bookmark)
             withContext(Dispatchers.Main) {
                 bookmarkButton.setCompoundDrawablesWithIntrinsicBounds(
                     R.drawable.ic_add,
@@ -168,7 +143,6 @@ class VaksinLocationDetailFragment : Fragment() {
         }
     }
 
-
     private fun openGoogleMaps(latitute: String?, longitude: String?) {
         // Creates an Intent that will load a map of Faskes
         val gmmIntentUri = Uri.parse("geo:${latitute},${longitude}?z=20")
@@ -176,6 +150,4 @@ class VaksinLocationDetailFragment : Fragment() {
         mapIntent.setPackage("com.google.android.apps.maps")
         startActivity(mapIntent)
     }
-
 }
-

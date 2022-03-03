@@ -33,7 +33,7 @@ data class Detail (
 @Parcelize
 data class Data (
 
-    var id          : Int?,
+    var id          : Int,
     var kode        : String?,
     var nama        : String?,
     var kota        : String?,
@@ -45,7 +45,5 @@ data class Data (
     var jenis_faskes : String?,
     var kelas_rs     : String?,
     var status      : String?,
-    var detail      : ArrayList<Detail>,
-    var sourceData  : String?
 
 ) : Parcelable

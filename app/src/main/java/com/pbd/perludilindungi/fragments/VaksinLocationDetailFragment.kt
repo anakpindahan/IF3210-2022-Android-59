@@ -66,39 +66,73 @@ class VaksinLocationDetailFragment : Fragment() {
             // Bookmark
             val bookmarkButton = view.findViewById<Button>(R.id.buttonBookMark)
             bookmarkButton.setOnClickListener {
-                CoroutineScope(Dispatchers.IO).launch {
-                    if (dataFaskes != null) {
+
+                if(getBookmarkStatus(dataFaskes!!.id) == false){
+                    System.out.println(getBookmarkStatus(dataFaskes!!.id))
+                    CoroutineScope(Dispatchers.IO).launch {
+                        if (dataFaskes != null) {
 //                        Insert data to database
-                        db.bookmarkDao().addBookmark(
-                            Bookmark(
-                                0,
-                                dataFaskes.id!!,
-                                dataFaskes.kode!!,
-                                dataFaskes.nama!!,
-                                dataFaskes.provinsi!!,
-                                dataFaskes.kota!!,
-                                dataFaskes.alamat!!,
-                                dataFaskes.latitude!!,
-                                dataFaskes.longitude!!,
-                                dataFaskes.telp,
-                                dataFaskes.jenis_faskes,
-                                dataFaskes.kelas_rs,
-                                dataFaskes.status!!,
-                                dataFaskes.sourceData
+                            db.bookmarkDao().addBookmark(
+                                Bookmark(
+                                    0,
+                                    dataFaskes.id,
+                                    dataFaskes.kode!!,
+                                    dataFaskes.nama!!,
+                                    dataFaskes.provinsi!!,
+                                    dataFaskes.kota!!,
+                                    dataFaskes.alamat!!,
+                                    dataFaskes.latitude!!,
+                                    dataFaskes.longitude!!,
+                                    dataFaskes.telp,
+                                    dataFaskes.jenis_faskes,
+                                    dataFaskes.kelas_rs,
+                                    dataFaskes.status!!,
+                                )
                             )
-                        )
-                    }
+                        }
+                        CoroutineScope(Dispatchers.Main).launch {
+                            bookmarkButton.text = "REMOVE FROM BOOKMARK"
+                        }
 //                    Look if data is added succesfully
-                    val bookmarks = db.bookmarkDao().getBookmarks()
-                    Log.d("DETAILLOCATION", bookmarks.toString())
+                        val bookmarks = db.bookmarkDao().getBookmarks()
+                        Log.d("DETAILLOCATION", bookmarks.toString())
+                    }
                 }
+                else{
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val deletedBookmark = db.bookmarkDao().getBookmarkByFaskesId(dataFaskes!!.id)
+                        db.bookmarkDao().deleteBookmark(deletedBookmark)
+                        CoroutineScope(Dispatchers.Main).launch {
+                            bookmarkButton.text = "ADD TO BOOKMARK"
+                        }
+                        // Look if data is deleted succesfully
+                        val bookmarks = db.bookmarkDao().getBookmarks()
+                        Log.d("DELETE, DETAIL LOCATION", bookmarks.toString())
+                    }
+                }
+
+
             }
 
         }
     }
 
+    private fun getBookmarkStatus(faskesID : Int): Boolean {
+
+        var returnStatus = false
+        CoroutineScope(Dispatchers.IO).launch {
+            val status = db.bookmarkDao().getBookmarkByFaskesId(faskesID)
+            if(status != null ){
+                returnStatus = true
+            }
+
+        }
+
+        return returnStatus
+    }
+
     private fun openGoogleMaps(latitute: String?, longitude: String?) {
-        // Creates an Intent that will load a map of San Francisco
+        // Creates an Intent that will load a map of Faskes
         val gmmIntentUri = Uri.parse("geo:${latitute},${longitude}?z=20")
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
         mapIntent.setPackage("com.google.android.apps.maps")
@@ -106,3 +140,4 @@ class VaksinLocationDetailFragment : Fragment() {
     }
 
 }
+

@@ -76,17 +76,6 @@ class VaksinLocationDetailFragment : Fragment() {
         val bookmark: Bookmark? =
             db.bookmarkDao().getBookmarkByFaskesId(dataFaskes!!.id)
         if (bookmark == null) {
-            Log.d("SETBOOKMARK", "at if")
-            withContext(Dispatchers.Main) {
-                bookmarkButton.setCompoundDrawablesWithIntrinsicBounds(
-                    R.drawable.ic_remove,
-                    0,
-                    0,
-                    0
-                )
-            }
-        } else {
-            Log.d("SETBOOKMARK", "here")
             withContext(Dispatchers.Main) {
                 bookmarkButton.setCompoundDrawablesWithIntrinsicBounds(
                     R.drawable.ic_add,
@@ -95,8 +84,42 @@ class VaksinLocationDetailFragment : Fragment() {
                     0
                 )
             }
+        } else {
+            withContext(Dispatchers.Main) {
+                bookmarkButton.setCompoundDrawablesWithIntrinsicBounds(
+                    R.drawable.ic_remove,
+                    0,
+                    0,
+                    0
+                )
+            }
         }
     }
+//    }    private fun setBookmarkIcon(dataFaskes: Data?, bookmarkButton: Button) = GlobalScope.launch(Dispatchers.Main) {
+//        val bookmark: Bookmark? =
+//            db.bookmarkDao().getBookmarkByFaskesId(dataFaskes!!.id)
+//        if (bookmark == null) {
+//            Log.d("SETBOOKMARK", "at if")
+//            withContext(Dispatchers.Main) {
+//                bookmarkButton.setCompoundDrawablesWithIntrinsicBounds(
+//                    R.drawable.ic_add,
+//                    0,
+//                    0,
+//                    0
+//                )
+//            }
+//        } else {
+//            Log.d("SETBOOKMARK", "here")
+//            withContext(Dispatchers.Main) {
+//                bookmarkButton.setCompoundDrawablesWithIntrinsicBounds(
+//                    R.drawable.ic_remove,
+//                    0,
+//                    0,
+//                    0
+//                )
+//            }
+//        }
+//    }
 
     private fun updateBookmark(
         dataFaskes: Data?, bookmarkButton
@@ -132,10 +155,6 @@ class VaksinLocationDetailFragment : Fragment() {
                     0
                 )
             }
-
-//                    Look if data is added succesfully
-            val bookmarks = db.bookmarkDao().getBookmarks()
-            Log.d("DETAILLOCATION", bookmarks.toString())
         } else {
             db.bookmarkDao().deleteBookmark(bookmark!!)
             withContext(Dispatchers.Main) {
@@ -146,9 +165,6 @@ class VaksinLocationDetailFragment : Fragment() {
                     0
                 )
             }
-            // Look if data is deleted succesfully
-            val bookmarks = db.bookmarkDao().getBookmarks()
-            Log.d("DELETEDETAILLOCATION", bookmarks.toString())
         }
     }
 

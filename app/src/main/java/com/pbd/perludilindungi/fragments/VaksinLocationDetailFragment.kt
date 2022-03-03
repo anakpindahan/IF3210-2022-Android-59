@@ -34,44 +34,49 @@ class VaksinLocationDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         if (arguments != null) {
             val dataFaskes = arguments?.getParcelable<Data>("EXTRA_FASKES")
-            Log.d("DETAILFRAGMENTFASKES", dataFaskes.toString())
-            val nameFaskes = view.findViewById(R.id.faskes_name) as TextView
-            nameFaskes.text = dataFaskes?.nama
-            val codeFaskes = view.findViewById(R.id.faskes_code) as TextView
-            codeFaskes.text = dataFaskes?.kode
-            val addressFaskes = view.findViewById(R.id.faskes_address) as TextView
-            addressFaskes.text = dataFaskes?.alamat
-            val phoneFaskes = view.findViewById(R.id.faskes_phone) as TextView
-            phoneFaskes.text = dataFaskes?.telp
-            val typeFaskes = view.findViewById(R.id.faskes_type) as TextView
-            typeFaskes.text = dataFaskes?.jenis_faskes
-            if (dataFaskes?.status.equals("Siap Vaksinasi")) {
-                val imageFaskesTrue = view.findViewById(R.id.image_status_true) as ImageView
-                imageFaskesTrue.visibility = View.VISIBLE
-            } else {
-                val imageFaskesFalse = view.findViewById(R.id.image_status_false) as ImageView
-                imageFaskesFalse.visibility = View.VISIBLE
-            }
-            val statusFaskes = view.findViewById(R.id.faskes_status) as TextView
-            statusFaskes.text = dataFaskes?.status
+            val dataFaskesBookmark = arguments?.getParcelable<Data>("EXTRA_FASKES_BOOKMARK")
+            if(dataFaskes != null) setAllAtribute(dataFaskes) else setAllAtribute(dataFaskesBookmark!!)
 
-            // Gmaps
-            val googleMapsButton = view.findViewById(R.id.buttonGoogleMaps) as Button
-            googleMapsButton.setOnClickListener {
-                openGoogleMaps(dataFaskes?.latitude, dataFaskes?.longitude)
-            }
-
-            val bookmarkButton = view.findViewById<Button>(R.id.buttonBookMark)
-
-            // Set bookmark icon for the first time
-            setBookmarkIcon(dataFaskes, bookmarkButton)
-            // Bookmark
-            bookmarkButton.setOnClickListener {
-                updateBookmark(dataFaskes, bookmarkButton)
-            }
         }
     }
 
+    private fun setAllAtribute(dataFaskes: Data){
+        Log.d("DETAILFRAGMENTFASKES", dataFaskes.toString())
+        val nameFaskes = view?.findViewById(R.id.faskes_name) as TextView
+        nameFaskes.text = dataFaskes.nama
+        val codeFaskes = view?.findViewById(R.id.faskes_code) as TextView
+        codeFaskes.text = dataFaskes.kode
+        val addressFaskes = view?.findViewById(R.id.faskes_address) as TextView
+        addressFaskes.text = dataFaskes.alamat
+        val phoneFaskes = view?.findViewById(R.id.faskes_phone) as TextView
+        phoneFaskes.text = dataFaskes.telp
+        val typeFaskes = view?.findViewById(R.id.faskes_type) as TextView
+        typeFaskes.text = dataFaskes.jenis_faskes
+        if (dataFaskes.status.equals("Siap Vaksinasi")) {
+            val imageFaskesTrue = view?.findViewById(R.id.image_status_true) as ImageView
+            imageFaskesTrue.visibility = View.VISIBLE
+        } else {
+            val imageFaskesFalse = view?.findViewById(R.id.image_status_false) as ImageView
+            imageFaskesFalse.visibility = View.VISIBLE
+        }
+        val statusFaskes = view?.findViewById(R.id.faskes_status) as TextView
+        statusFaskes.text = dataFaskes.status
+
+        // Gmaps
+        val googleMapsButton = view?.findViewById(R.id.buttonGoogleMaps) as Button
+        googleMapsButton.setOnClickListener {
+            openGoogleMaps(dataFaskes.latitude, dataFaskes.longitude)
+        }
+
+        val bookmarkButton = view?.findViewById<Button>(R.id.buttonBookMark)
+
+        // Set bookmark icon for the first time
+        setBookmarkIcon(dataFaskes, bookmarkButton!!)
+        // Bookmark
+        bookmarkButton.setOnClickListener {
+            updateBookmark(dataFaskes, bookmarkButton)
+        }
+    }
     private fun setBookmarkIcon(dataFaskes: Data?, bookmarkButton: Button) = CoroutineScope(Dispatchers.IO).launch {
         val bookmark: Bookmark? =
             db.bookmarkDao().getBookmarkByFaskesId(dataFaskes!!.id)
@@ -95,31 +100,6 @@ class VaksinLocationDetailFragment : Fragment() {
             }
         }
     }
-//    }    private fun setBookmarkIcon(dataFaskes: Data?, bookmarkButton: Button) = GlobalScope.launch(Dispatchers.Main) {
-//        val bookmark: Bookmark? =
-//            db.bookmarkDao().getBookmarkByFaskesId(dataFaskes!!.id)
-//        if (bookmark == null) {
-//            Log.d("SETBOOKMARK", "at if")
-//            withContext(Dispatchers.Main) {
-//                bookmarkButton.setCompoundDrawablesWithIntrinsicBounds(
-//                    R.drawable.ic_add,
-//                    0,
-//                    0,
-//                    0
-//                )
-//            }
-//        } else {
-//            Log.d("SETBOOKMARK", "here")
-//            withContext(Dispatchers.Main) {
-//                bookmarkButton.setCompoundDrawablesWithIntrinsicBounds(
-//                    R.drawable.ic_remove,
-//                    0,
-//                    0,
-//                    0
-//                )
-//            }
-//        }
-//    }
 
     private fun updateBookmark(
         dataFaskes: Data?, bookmarkButton
@@ -156,7 +136,7 @@ class VaksinLocationDetailFragment : Fragment() {
                 )
             }
         } else {
-            db.bookmarkDao().deleteBookmark(bookmark!!)
+            db.bookmarkDao().deleteBookmark(bookmark)
             withContext(Dispatchers.Main) {
                 bookmarkButton.setCompoundDrawablesWithIntrinsicBounds(
                     R.drawable.ic_add,
@@ -168,7 +148,6 @@ class VaksinLocationDetailFragment : Fragment() {
         }
     }
 
-
     private fun openGoogleMaps(latitute: String?, longitude: String?) {
         // Creates an Intent that will load a map of Faskes
         val gmmIntentUri = Uri.parse("geo:${latitute},${longitude}?z=20")
@@ -176,6 +155,4 @@ class VaksinLocationDetailFragment : Fragment() {
         mapIntent.setPackage("com.google.android.apps.maps")
         startActivity(mapIntent)
     }
-
 }
-

@@ -1,7 +1,6 @@
 package com.pbd.perludilindungi.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,8 +19,7 @@ import retrofit2.Response
 
 class NewsFragment : Fragment() {
 
-    private val TAG: String = "NewsFragment"
-    lateinit var newsAdapter: NewsAdapter
+    private lateinit var newsAdapter: NewsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,11 +44,11 @@ class NewsFragment : Fragment() {
             override fun onClick(result: News) {
                 val detailFragment = NewsDetailFragment()
                 val mBundle = Bundle()
-                mBundle.putString(NewsDetailFragment.EXTRA_URL, result.link[0] ?: "www.google.com")
+                mBundle.putString(NewsDetailFragment.EXTRA_URL, result.link[0])
 
                 detailFragment.arguments = mBundle
                 val mFragmentManager = parentFragmentManager
-                mFragmentManager?.beginTransaction()?.apply {
+                mFragmentManager.beginTransaction().apply {
                     replace(R.id.fragment_container, detailFragment, NewsDetailFragment::class.java.simpleName)
                     addToBackStack(null)
                     commit()
@@ -80,13 +78,8 @@ class NewsFragment : Fragment() {
 
                 override fun onFailure(call: Call<NewsModel>, t: Throwable) {
                     progressBar.visibility = View.GONE
-                    printLog(t.toString())
                 }
             })
-    }
-
-    private fun printLog(message: String) {
-        Log.d(TAG, message)
     }
 
     private fun showData(items: NewsModel){

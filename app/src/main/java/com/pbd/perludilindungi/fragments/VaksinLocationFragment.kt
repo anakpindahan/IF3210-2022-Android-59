@@ -1,13 +1,12 @@
 package com.pbd.perludilindungi.fragments
 
+
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.ProgressBar
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,7 +21,7 @@ import kotlin.collections.ArrayList
 class VaksinLocationFragment : Fragment() {
 
     //atribut
-    lateinit var faskesAdapter: FaskesAdapter
+    private lateinit var faskesAdapter: FaskesAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -197,7 +196,55 @@ class VaksinLocationFragment : Fragment() {
     private fun showData(items: FaskesModel) {
         if (items.success) {
             val faskes = items.data
-            faskesAdapter.setData(faskes)
+            val nearestFaskestList = getNearestFaskes("-6.9158611339805836", "107.66198609324606",faskes)
+            faskesAdapter.setData(nearestFaskestList)
         }
     }
+
+    private fun getNearestFaskes(latitude : String,longitude: String, faskesList : List<Data>) : List<Data> {
+        var data : MutableList<Data> = mutableListOf()
+        val givenMap = hashMapOf<Int, Double>()
+        var ukuran = 5
+        if(faskesList.size <5) ukuran = faskesList.size
+        for(faskes in faskesList){
+            val faskesLatitude = faskes.latitude
+            val faskesLongitude = faskes.longitude
+            val jarak = distanceInKm(faskesLatitude!!.toDouble(),
+                        faskesLongitude!!.toDouble(),
+                        latitude.toDouble(),
+                        longitude.toDouble()
+            )
+            givenMap[faskes.id] = jarak
+        }
+        val sortedMap = givenMap.toList().sortedBy { (k, v) -> v }.toMap()
+        for(sortedFaskes in sortedMap){
+            for(faskes in faskesList){
+                if(faskes.id == sortedFaskes.key && data.size != ukuran){
+                    data.add(faskes)
+                }
+                if(data.size == ukuran)break
+            }
+            if(data.size == ukuran)break
+        }
+        return data.toList()
+    }
+
+    fun distanceInKm(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
+        val theta = lon1 - lon2
+        var dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta))
+        dist = Math.acos(dist)
+        dist = rad2deg(dist)
+        dist = dist * 60 * 1.1515
+        dist = dist * 1.609344
+        return dist
+    }
+
+    private fun deg2rad(deg: Double): Double {
+        return deg * Math.PI / 180.0
+    }
+
+    private fun rad2deg(rad: Double): Double {
+        return rad * 180.0 / Math.PI
+    }
+
 }

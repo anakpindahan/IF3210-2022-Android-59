@@ -37,6 +37,8 @@ android {
 
 dependencies {
 
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
     def room_version = "2.4.2"
 
     // Database Room
@@ -69,4 +71,7 @@ dependencies {
     def viewmodel_version = "2.4.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewmodel_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$viewmodel_version"
+
+    // Check in
+    implementation 'com.journeyapps:zxing-android-embedded:4.2.0'
 }

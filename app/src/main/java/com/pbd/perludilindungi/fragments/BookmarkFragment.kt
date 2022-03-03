@@ -25,9 +25,6 @@ class BookmarkFragment : Fragment() {
 
 
     //method
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,11 +49,41 @@ class BookmarkFragment : Fragment() {
 
     }
 
+    private fun bookmarkToData(bookmark : Bookmark) : Data{
+        val faskesObject = Data(
+            bookmark.faskesId,
+            bookmark.kode,
+            bookmark.nama,
+            bookmark.kota,
+            bookmark.provinsi,
+            bookmark.alamat,
+            bookmark.latitude,
+            bookmark.longitude,
+            bookmark.telp,
+            bookmark.jenis_faskes,
+            bookmark.kelas_rs,
+            bookmark.status
+        )
+        return faskesObject
+    }
     private fun setupRecyclerView() {
         bookmarkAdapter = BookmarkAdapter(arrayListOf(), object : BookmarkAdapter.OnAdapterListener {
             override fun onClick(result: Bookmark) {
-                val detailLocationFragment = BookmarkFragment()
-
+                val detailLocationFragment = VaksinLocationDetailFragment()
+                val mbundle = Bundle()
+                val dataResult = bookmarkToData(result)
+                mbundle.putParcelable("EXTRA_FASKES_BOOKMARK",dataResult)
+                detailLocationFragment.arguments = mbundle
+                val mFragmentManager = parentFragmentManager
+                mFragmentManager.beginTransaction().apply {
+                    replace(
+                        R.id.fragment_container,
+                        detailLocationFragment,
+                        BookmarkFragment::class.java.simpleName
+                    )
+                    addToBackStack(null)
+                    commit()
+                }
             }
         })
         val recyclerView: RecyclerView = requireView().findViewById(R.id.bookmark_list)

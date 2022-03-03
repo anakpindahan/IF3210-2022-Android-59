@@ -34,44 +34,49 @@ class VaksinLocationDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         if (arguments != null) {
             val dataFaskes = arguments?.getParcelable<Data>("EXTRA_FASKES")
-            Log.d("DETAILFRAGMENTFASKES", dataFaskes.toString())
-            val nameFaskes = view.findViewById(R.id.faskes_name) as TextView
-            nameFaskes.text = dataFaskes?.nama
-            val codeFaskes = view.findViewById(R.id.faskes_code) as TextView
-            codeFaskes.text = dataFaskes?.kode
-            val addressFaskes = view.findViewById(R.id.faskes_address) as TextView
-            addressFaskes.text = dataFaskes?.alamat
-            val phoneFaskes = view.findViewById(R.id.faskes_phone) as TextView
-            phoneFaskes.text = dataFaskes?.telp
-            val typeFaskes = view.findViewById(R.id.faskes_type) as TextView
-            typeFaskes.text = dataFaskes?.jenis_faskes
-            if (dataFaskes?.status.equals("Siap Vaksinasi")) {
-                val imageFaskesTrue = view.findViewById(R.id.image_status_true) as ImageView
-                imageFaskesTrue.visibility = View.VISIBLE
-            } else {
-                val imageFaskesFalse = view.findViewById(R.id.image_status_false) as ImageView
-                imageFaskesFalse.visibility = View.VISIBLE
-            }
-            val statusFaskes = view.findViewById(R.id.faskes_status) as TextView
-            statusFaskes.text = dataFaskes?.status
+            val dataFaskesBookmark = arguments?.getParcelable<Data>("EXTRA_FASKES_BOOKMARK")
+            if(dataFaskes != null) setAllAtribute(dataFaskes) else setAllAtribute(dataFaskesBookmark!!)
 
-            // Gmaps
-            val googleMapsButton = view.findViewById(R.id.buttonGoogleMaps) as Button
-            googleMapsButton.setOnClickListener {
-                openGoogleMaps(dataFaskes?.latitude, dataFaskes?.longitude)
-            }
-
-            val bookmarkButton = view.findViewById<Button>(R.id.buttonBookMark)
-
-            // Set bookmark icon for the first time
-            setBookmarkIcon(dataFaskes, bookmarkButton)
-            // Bookmark
-            bookmarkButton.setOnClickListener {
-                updateBookmark(dataFaskes, bookmarkButton)
-            }
         }
     }
 
+    private fun setAllAtribute(dataFaskes: Data){
+        Log.d("DETAILFRAGMENTFASKES", dataFaskes.toString())
+        val nameFaskes = view?.findViewById(R.id.faskes_name) as TextView
+        nameFaskes.text = dataFaskes.nama
+        val codeFaskes = view?.findViewById(R.id.faskes_code) as TextView
+        codeFaskes.text = dataFaskes.kode
+        val addressFaskes = view?.findViewById(R.id.faskes_address) as TextView
+        addressFaskes.text = dataFaskes.alamat
+        val phoneFaskes = view?.findViewById(R.id.faskes_phone) as TextView
+        phoneFaskes.text = dataFaskes.telp
+        val typeFaskes = view?.findViewById(R.id.faskes_type) as TextView
+        typeFaskes.text = dataFaskes.jenis_faskes
+        if (dataFaskes.status.equals("Siap Vaksinasi")) {
+            val imageFaskesTrue = view?.findViewById(R.id.image_status_true) as ImageView
+            imageFaskesTrue.visibility = View.VISIBLE
+        } else {
+            val imageFaskesFalse = view?.findViewById(R.id.image_status_false) as ImageView
+            imageFaskesFalse.visibility = View.VISIBLE
+        }
+        val statusFaskes = view?.findViewById(R.id.faskes_status) as TextView
+        statusFaskes.text = dataFaskes.status
+
+        // Gmaps
+        val googleMapsButton = view?.findViewById(R.id.buttonGoogleMaps) as Button
+        googleMapsButton.setOnClickListener {
+            openGoogleMaps(dataFaskes.latitude, dataFaskes.longitude)
+        }
+
+        val bookmarkButton = view?.findViewById<Button>(R.id.buttonBookMark)
+
+        // Set bookmark icon for the first time
+        setBookmarkIcon(dataFaskes, bookmarkButton!!)
+        // Bookmark
+        bookmarkButton.setOnClickListener {
+            updateBookmark(dataFaskes, bookmarkButton)
+        }
+    }
     private fun setBookmarkIcon(dataFaskes: Data?, bookmarkButton: Button) = CoroutineScope(Dispatchers.IO).launch {
         val bookmark: Bookmark? =
             db.bookmarkDao().getBookmarkByFaskesId(dataFaskes!!.id)

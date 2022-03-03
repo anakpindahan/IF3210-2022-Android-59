@@ -36,12 +36,13 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.room:room-common:2.3.0'
+
     def room_version = "2.4.2"
 
     // Database Room
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-common:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
     // Coroutines
@@ -63,4 +64,9 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    // Livedata viewmodel
+    def viewmodel_version = "2.4.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewmodel_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$viewmodel_version"
 }

@@ -15,14 +15,12 @@ import com.pbd.perludilindungi.Data
 import com.pbd.perludilindungi.R
 import com.pbd.perludilindungi.room.Bookmark
 import com.pbd.perludilindungi.room.BookmarkDB
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 
 class VaksinLocationDetailFragment : Fragment() {
 
-    val db by lazy { BookmarkDB(requireActivity()) }
+    private val db by lazy { BookmarkDB(requireActivity()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,73 +61,97 @@ class VaksinLocationDetailFragment : Fragment() {
                 openGoogleMaps(dataFaskes?.latitude, dataFaskes?.longitude)
             }
 
-            // Bookmark
             val bookmarkButton = view.findViewById<Button>(R.id.buttonBookMark)
+
+            // Set bookmark icon for the first time
+            setBookmarkIcon(dataFaskes, bookmarkButton)
+            // Bookmark
             bookmarkButton.setOnClickListener {
+                updateBookmark(dataFaskes, bookmarkButton)
+            }
+        }
+    }
 
-                if(getBookmarkStatus(dataFaskes!!.id) == false){
-                    System.out.println(getBookmarkStatus(dataFaskes!!.id))
-                    CoroutineScope(Dispatchers.IO).launch {
-                        if (dataFaskes != null) {
-//                        Insert data to database
-                            db.bookmarkDao().addBookmark(
-                                Bookmark(
-                                    0,
-                                    dataFaskes.id,
-                                    dataFaskes.kode!!,
-                                    dataFaskes.nama!!,
-                                    dataFaskes.provinsi!!,
-                                    dataFaskes.kota!!,
-                                    dataFaskes.alamat!!,
-                                    dataFaskes.latitude!!,
-                                    dataFaskes.longitude!!,
-                                    dataFaskes.telp,
-                                    dataFaskes.jenis_faskes,
-                                    dataFaskes.kelas_rs,
-                                    dataFaskes.status!!,
-                                )
-                            )
-                        }
-                        CoroutineScope(Dispatchers.Main).launch {
-                            bookmarkButton.text = "REMOVE FROM BOOKMARK"
-                        }
+    private fun setBookmarkIcon(dataFaskes: Data?, bookmarkButton: Button) = CoroutineScope(Dispatchers.IO).launch {
+        val bookmark: Bookmark? =
+            db.bookmarkDao().getBookmarkByFaskesId(dataFaskes!!.id)
+        if (bookmark == null) {
+            Log.d("SETBOOKMARK", "at if")
+            withContext(Dispatchers.Main) {
+                bookmarkButton.setCompoundDrawablesWithIntrinsicBounds(
+                    R.drawable.ic_remove,
+                    0,
+                    0,
+                    0
+                )
+            }
+        } else {
+            Log.d("SETBOOKMARK", "here")
+            withContext(Dispatchers.Main) {
+                bookmarkButton.setCompoundDrawablesWithIntrinsicBounds(
+                    R.drawable.ic_add,
+                    0,
+                    0,
+                    0
+                )
+            }
+        }
+    }
+
+    private fun updateBookmark(
+        dataFaskes: Data?, bookmarkButton
+        : Button
+    ) = CoroutineScope(Dispatchers.IO).launch {
+        val bookmark: Bookmark? =
+            db.bookmarkDao().getBookmarkByFaskesId(dataFaskes!!.id)
+        if (bookmark == null) {
+            // Insert data to database
+            db.bookmarkDao().addBookmark(
+                Bookmark(
+                    0,
+                    dataFaskes.id,
+                    dataFaskes.kode!!,
+                    dataFaskes.nama!!,
+                    dataFaskes.provinsi!!,
+                    dataFaskes.kota!!,
+                    dataFaskes.alamat!!,
+                    dataFaskes.latitude!!,
+                    dataFaskes.longitude!!,
+                    dataFaskes.telp,
+                    dataFaskes.jenis_faskes,
+                    dataFaskes.kelas_rs,
+                    dataFaskes.status!!,
+                )
+            )
+
+            withContext(Dispatchers.Main) {
+                bookmarkButton.setCompoundDrawablesWithIntrinsicBounds(
+                    R.drawable.ic_remove,
+                    0,
+                    0,
+                    0
+                )
+            }
+
 //                    Look if data is added succesfully
-                        val bookmarks = db.bookmarkDao().getBookmarks()
-                        Log.d("DETAILLOCATION", bookmarks.toString())
-                    }
-                }
-                else{
-                    CoroutineScope(Dispatchers.IO).launch {
-                        val deletedBookmark = db.bookmarkDao().getBookmarkByFaskesId(dataFaskes!!.id)
-                        db.bookmarkDao().deleteBookmark(deletedBookmark)
-                        CoroutineScope(Dispatchers.Main).launch {
-                            bookmarkButton.text = "ADD TO BOOKMARK"
-                        }
-                        // Look if data is deleted succesfully
-                        val bookmarks = db.bookmarkDao().getBookmarks()
-                        Log.d("DELETE, DETAIL LOCATION", bookmarks.toString())
-                    }
-                }
-
-
+            val bookmarks = db.bookmarkDao().getBookmarks()
+            Log.d("DETAILLOCATION", bookmarks.toString())
+        } else {
+            db.bookmarkDao().deleteBookmark(bookmark!!)
+            withContext(Dispatchers.Main) {
+                bookmarkButton.setCompoundDrawablesWithIntrinsicBounds(
+                    R.drawable.ic_add,
+                    0,
+                    0,
+                    0
+                )
             }
-
+            // Look if data is deleted succesfully
+            val bookmarks = db.bookmarkDao().getBookmarks()
+            Log.d("DELETEDETAILLOCATION", bookmarks.toString())
         }
     }
 
-    private fun getBookmarkStatus(faskesID : Int): Boolean {
-
-        var returnStatus = false
-        CoroutineScope(Dispatchers.IO).launch {
-            val status = db.bookmarkDao().getBookmarkByFaskesId(faskesID)
-            if(status != null ){
-                returnStatus = true
-            }
-
-        }
-
-        return returnStatus
-    }
 
     private fun openGoogleMaps(latitute: String?, longitude: String?) {
         // Creates an Intent that will load a map of Faskes

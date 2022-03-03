@@ -7,4 +7,5 @@
     <string name="vaksin_location">Vaksin Location</string>
     <string name="bookmark">Bookmark</string>
     <string name="cari_faskes">Cari Faskes</string>
+    <string name="kode_faskes">Kode %1$s</string>
 </resources>

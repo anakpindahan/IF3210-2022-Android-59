@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/faskes_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,7 +11,8 @@
     android:layout_marginRight="8dp"
     android:layout_marginBottom="8dp"
     card_view:cardCornerRadius="4dp"
-    >
+    android:layout_gravity="center"
+    android:background="@color/light_gray">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -49,11 +51,9 @@
             android:layout_marginBottom="4dp"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintHorizontal_bias="0.288"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintBottom_toTopOf="@+id/faskes_carditem_phone"
             card_view:layout_constraintTop_toBottomOf="@+id/faskes_carditem_type"
-            card_view:layout_constraintVertical_bias="0.338"
             tools:text="Alamat fakses" />
 
         <TextView

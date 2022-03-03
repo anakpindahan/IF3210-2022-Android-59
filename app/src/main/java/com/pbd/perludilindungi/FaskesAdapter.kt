@@ -1,11 +1,11 @@
 package com.pbd.perludilindungi
 
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.pbd.perludilindungi.room.Bookmark
 
 class FaskesAdapter(val results: ArrayList<Data>, val listener: OnAdapterListener) : RecyclerView.Adapter<FaskesAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
@@ -17,7 +17,7 @@ class FaskesAdapter(val results: ArrayList<Data>, val listener: OnAdapterListene
         holder.tvTitle.text = result.nama
         holder.tvAddress.text = result.alamat
         holder.tvPhone.text = result.telp
-        holder.tvCode.text = result.kode
+        holder.tvCode.text = holder.itemView.getContext().getString(R.string.kode_faskes,result.kode)
         holder.tvType.text = result.jenis_faskes
         holder.view.setOnClickListener{
             listener.onClick(result)

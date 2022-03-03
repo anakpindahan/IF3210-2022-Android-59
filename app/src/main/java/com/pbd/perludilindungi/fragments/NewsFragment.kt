@@ -1,7 +1,6 @@
 package com.pbd.perludilindungi.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,8 +19,7 @@ import retrofit2.Response
 
 class NewsFragment : Fragment() {
 
-    private val TAG: String = "NewsFragment"
-    lateinit var newsAdapter: NewsAdapter
+    private lateinit var newsAdapter: NewsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -80,13 +78,8 @@ class NewsFragment : Fragment() {
 
                 override fun onFailure(call: Call<NewsModel>, t: Throwable) {
                     progressBar.visibility = View.GONE
-                    printLog(t.toString())
                 }
             })
-    }
-
-    private fun printLog(message: String) {
-        Log.d(TAG, message)
     }
 
     private fun showData(items: NewsModel){

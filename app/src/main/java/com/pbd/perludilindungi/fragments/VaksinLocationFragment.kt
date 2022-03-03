@@ -22,7 +22,7 @@ import kotlin.collections.ArrayList
 class VaksinLocationFragment : Fragment() {
 
     //atribut
-    lateinit var faskesAdapter: FaskesAdapter
+    private lateinit var faskesAdapter: FaskesAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

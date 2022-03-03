@@ -5,26 +5,29 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.pbd.perludilindungi.BookmarkAdapter
+import com.pbd.perludilindungi.Data
 import com.pbd.perludilindungi.R
+import com.pbd.perludilindungi.room.Bookmark
+import com.pbd.perludilindungi.room.BookmarkDB
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [BookmarkFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class BookmarkFragment : Fragment() {
 
+    //attribute
+    val db by lazy { BookmarkDB(requireActivity()) }
+    lateinit var bookmarkAdapter: BookmarkAdapter
+
+
+    //method
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,9 +38,36 @@ class BookmarkFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val bookmarkText : TextView = view.findViewById(R.id.bookmark_text)
-        bookmarkText.setOnClickListener{
-            Toast.makeText(context, "Bookmark Fragment", Toast.LENGTH_SHORT).show()
+        setupRecyclerView()
+        getFaskesFromDB()
+    }
+
+    private fun getFaskesFromDB() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val bookmarkList = db.bookmarkDao().getBookmarks()
+            CoroutineScope(Dispatchers.Main).launch {
+                showData(bookmarkList)
+            }
+        }
+
+    }
+
+    private fun setupRecyclerView() {
+        bookmarkAdapter = BookmarkAdapter(arrayListOf(), object : BookmarkAdapter.OnAdapterListener {
+            override fun onClick(result: Bookmark) {
+                val detailLocationFragment = BookmarkFragment()
+
+            }
+        })
+        val recyclerView: RecyclerView = requireView().findViewById(R.id.bookmark_list)
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(requireActivity().applicationContext)
+            adapter = bookmarkAdapter
         }
     }
+
+    private fun showData(items: List<Bookmark>) {
+        bookmarkAdapter.setData(items)
+    }
+
 }

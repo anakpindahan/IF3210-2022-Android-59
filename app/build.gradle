@@ -69,4 +69,5 @@ dependencies {
     def viewmodel_version = "2.4.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewmodel_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$viewmodel_version"
+    implementation "com.google.android.gms:play-services-location:19.0.1"
 }

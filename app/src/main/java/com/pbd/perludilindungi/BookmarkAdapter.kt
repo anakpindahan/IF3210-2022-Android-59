@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.pbd.perludilindungi.room.Bookmark
 
-class FaskesAdapter(val results: ArrayList<Data>, val listener: OnAdapterListener) : RecyclerView.Adapter<FaskesAdapter.ViewHolder>() {
+class BookmarkAdapter(val results: ArrayList<Bookmark>, val listener: OnAdapterListener) : RecyclerView.Adapter<BookmarkAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.adapter_faskes, parent, false)
     )
@@ -24,9 +24,8 @@ class FaskesAdapter(val results: ArrayList<Data>, val listener: OnAdapterListene
         }
     }
 
-
     interface OnAdapterListener {
-        fun onClick(result : Data)
+        fun onClick(result: Bookmark)
     }
 
     class ViewHolder (val view: View) : RecyclerView.ViewHolder(view) {
@@ -36,7 +35,7 @@ class FaskesAdapter(val results: ArrayList<Data>, val listener: OnAdapterListene
         var tvCode: TextView = view.findViewById(R.id.faskes_carditem_code)
         var tvType: TextView = view.findViewById(R.id.faskes_carditem_type)
     }
-    fun setData (data : List<Data>){
+    fun setData (data : List<Bookmark>){
         results.clear()
         results.addAll(data)
         notifyDataSetChanged()

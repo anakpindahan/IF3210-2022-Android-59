@@ -1,31 +1,47 @@
 package com.pbd.perludilindungi.fragments
 
 
+
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.ProgressBar
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.pbd.perludilindungi.*
 import com.pbd.perludilindungi.services.retrofit.ApiService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.collections.ArrayList
 
 
-class VaksinLocationFragment : Fragment() {
+class VaksinLocationFragment : Fragment(){
 
     //atribut
+    private lateinit var fusedLocationProviderClient : FusedLocationProviderClient
     private lateinit var faskesAdapter: FaskesAdapter
+
+    companion object{
+        var latitude = String()
+        var longitude = String()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_vaksin_location, container, false)
     }
@@ -33,6 +49,8 @@ class VaksinLocationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity().applicationContext)
+        checkLocationPermission()
         val provinceAutoCompleteTextView =
             view.findViewById(R.id.ProvinceDropdownMenu) as AutoCompleteTextView
         provinceAutoCompleteTextView.setOnClickListener {
@@ -44,9 +62,37 @@ class VaksinLocationFragment : Fragment() {
         val cityAutoCompleteTextView =
             view.findViewById(R.id.CityDropdownMenu) as AutoCompleteTextView
         cityAutoCompleteTextView.setOnItemClickListener { _, _, _, _ ->
+            getCurrentLocation()
             setupRecyclerView()
             getFaskesFromAPI()
         }
+    }
+
+
+    private fun checkLocationPermission(){
+
+        //cek permission granted or not
+        //if not granted request permission
+        if(ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED
+        ){
+            ActivityCompat.requestPermissions(requireActivity(),arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 101)
+
+        }
+        else{
+            getCurrentLocation()
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getCurrentLocation(){
+        fusedLocationProviderClient.lastLocation.addOnSuccessListener {
+            if(it != null){
+                latitude = it.latitude.toString()
+                longitude = it.longitude.toString()
+            }
+        }
+
     }
 
     //function for setup recyclerview for faskes
@@ -196,13 +242,15 @@ class VaksinLocationFragment : Fragment() {
     private fun showData(items: FaskesModel) {
         if (items.success) {
             val faskes = items.data
-            val nearestFaskestList = getNearestFaskes("-6.9158611339805836", "107.66198609324606",faskes)
+
+            val nearestFaskestList = getNearestFaskes(latitude , longitude,faskes)
             faskesAdapter.setData(nearestFaskestList)
+//            faskesAdapter.setData(faskes)
         }
     }
 
     private fun getNearestFaskes(latitude : String,longitude: String, faskesList : List<Data>) : List<Data> {
-        var data : MutableList<Data> = mutableListOf()
+        val data : MutableList<Data> = mutableListOf()
         val givenMap = hashMapOf<Int, Double>()
         var ukuran = 5
         if(faskesList.size <5) ukuran = faskesList.size

@@ -17,4 +17,7 @@
     <string name="bookmark">Bookmark</string>
     <string name="cari_faskes">Cari Faskes</string>
     <string name="kode_faskes">Kode %1$s</string>
+    <string name="temperature">Temperature :</string>
+    <string name="temperature_val">%1$s \u2103</string>
+    <string name="calibrating">Calibrating …</string>
 </resources>

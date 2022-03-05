@@ -4,8 +4,7 @@ import com.pbd.perludilindungi.FaskesModel
 import com.pbd.perludilindungi.NewsModel
 import com.pbd.perludilindungi.ProvinceCityModel
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ApiEndpoint {
 
@@ -24,4 +23,5 @@ interface ApiEndpoint {
         @Query("province") province: String,
         @Query("city") city : String
     ): Call<FaskesModel>
+
 }

@@ -35,7 +35,12 @@ class CheckInActivity: AppCompatActivity(), LocationListener, SensorEventListene
 
         val scanButton : Button = findViewById(R.id.scan_button)
         scanButton.setOnClickListener{
-            val intentIntegrator = IntentIntegrator(this)
+            val intentIntegrator = IntentIntegrator(this).apply {
+                setPrompt("Scan a qr code PerluDilindungi")
+                setCameraId(0)
+                setOrientationLocked(true)
+                setCaptureActivity(CaptureActivityPortrait::class.java)
+            }
             intentIntegrator.setDesiredBarcodeFormats(listOf(IntentIntegrator.QR_CODE))
             intentIntegrator.initiateScan()
         }

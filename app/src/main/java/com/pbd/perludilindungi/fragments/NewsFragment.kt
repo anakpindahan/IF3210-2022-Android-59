@@ -40,9 +40,6 @@ class NewsFragment : Fragment() {
     }
 
 
-
-
-
     private fun setupRecyclerView() {
         newsAdapter = NewsAdapter(arrayListOf(), object : NewsAdapter.OnAdapterListener{
             override fun onClick(result: News) {

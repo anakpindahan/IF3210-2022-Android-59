@@ -12,6 +12,8 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -20,12 +22,21 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.zxing.integration.android.IntentIntegrator
 import com.pbd.perludilindungi.databinding.ActivityCheckInBinding
+import com.pbd.perludilindungi.model.QrcodeRequestModel
+import com.pbd.perludilindungi.services.retrofit.ApiService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class CheckInActivity: AppCompatActivity(), LocationListener, SensorEventListener  {
     private lateinit var locationManager: LocationManager
     private val locationPermissionCode = 2
     private lateinit var binding: ActivityCheckInBinding
     private lateinit var sensorManager : SensorManager
+    companion object {
+        var latitude = 0.0
+        var longitude = 0.0
+    }
     private var temperature: Sensor? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +50,7 @@ class CheckInActivity: AppCompatActivity(), LocationListener, SensorEventListene
                 setPrompt("Scan a qr code PerluDilindungi")
                 setCameraId(0)
                 setOrientationLocked(true)
-                setCaptureActivity(CaptureActivityPortrait::class.java)
+                captureActivity = CaptureActivityPortrait::class.java
             }
             intentIntegrator.setDesiredBarcodeFormats(listOf(IntentIntegrator.QR_CODE))
             intentIntegrator.initiateScan()
@@ -50,7 +61,6 @@ class CheckInActivity: AppCompatActivity(), LocationListener, SensorEventListene
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         temperature = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
 
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -60,9 +70,33 @@ class CheckInActivity: AppCompatActivity(), LocationListener, SensorEventListene
             if (result.contents == null) {
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show()
             } else {
-                Toast.makeText(this, "Scanned: " + result.contents, Toast.LENGTH_LONG).show()
+                val valueQr = result.contents
+                Toast.makeText(this, "Scanned: " + valueQr, Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Scanned: " + latitude, Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Scanned: " + longitude, Toast.LENGTH_LONG).show()
+//                postQrCodeData(valueQr, latitude, longitude)
             }
         }
+    }
+
+    private fun postQrCodeData(valueQr: String, latitude: Double, longitude : Double){
+        ApiService.endpoint.postQrCode(valueQr, latitude, longitude)
+            .enqueue(object : Callback<QrcodeRequestModel> {
+                override fun onResponse(
+                    call: Call<QrcodeRequestModel>,
+                    response: Response<QrcodeRequestModel>
+                ) {
+                    if(response.isSuccessful){
+                        val responseData = response.body()
+                        Log.d("POST", responseData.toString())
+                        Toast.makeText(applicationContext, responseData.toString(), Toast.LENGTH_LONG).show()
+                    }
+                }
+                override fun onFailure(call: Call<QrcodeRequestModel>, t: Throwable) {
+                    Toast.makeText(applicationContext, "Post failed ...", Toast.LENGTH_LONG).show()
+                }
+
+            })
     }
 
     private fun getLocation(){
@@ -79,6 +113,9 @@ class CheckInActivity: AppCompatActivity(), LocationListener, SensorEventListene
 
         text2.text = location.latitude.toString()
         text3.text = location.longitude.toString()
+
+        latitude = location.latitude
+        latitude = location.longitude
     }
 
     override fun onSensorChanged(p0: SensorEvent?) {

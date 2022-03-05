@@ -37,6 +37,7 @@ beberapa fitur seperti list news, list fasilitas kesehatan, dan bookmark list me
 * OkHTTP : Menampilkan log dari respond request sehingga dapat melihat apakah request berhasil atau tidak
 
 ## Screenshot
+[News jpeg](screenshots/news.jpeg)
 
 ## Work Distribution
 | NIM | Nama | Kontribusi |

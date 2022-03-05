@@ -37,7 +37,17 @@ beberapa fitur seperti list news, list fasilitas kesehatan, dan bookmark list me
 * OkHTTP : Menampilkan log dari respond request sehingga dapat melihat apakah request berhasil atau tidak
 
 ## Screenshot
-![News jpeg](screenshots/news.jpeg)
+![News](screenshots/news.jpeg)
+![News detail](screenshots/webview news.jpeg)
+![Vaksin Location Landscape](screenshots/vaksinlist.jpeg)
+![Vaksin Location](screenshots/vaksinlocation.jpeg)
+![Vaksin Detail](screenshots/detail faskes.jpeg)
+![Vaksin Landscape](screenshots/detailvaksin.jpeg)
+![Vaksin Landscape 2](screenshots/detailvaksin2.jpeg)
+![Bookmark](screenshots/bookmark.jpeg)
+![Checkin Green](screenshots/scan berhasil.jpeg)
+![Checkin Red](screenshots/scan gagal.jpeg)
+
 
 ## Work Distribution
 | NIM | Nama | Kontribusi |

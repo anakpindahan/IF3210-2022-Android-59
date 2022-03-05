@@ -40,7 +40,7 @@ beberapa fitur seperti list news, list fasilitas kesehatan, dan bookmark list me
 ![News](screenshots/news.jpeg)
 ![News detail](screenshots/webview news.jpeg)
 ![Vaksin Location Landscape](screenshots/vaksinlist.png)
-![Vaksin Location](screenshots/vaksinlocation.jpeg)
+![Vaksin Location](screenshots/vaksin location.jpeg)
 ![Vaksin Detail](screenshots/detail faskes.jpeg)
 ![Vaksin Landscape](screenshots/detailvaksin.png)
 ![Vaksin Landscape 2](screenshots/detailvaksin2.png)

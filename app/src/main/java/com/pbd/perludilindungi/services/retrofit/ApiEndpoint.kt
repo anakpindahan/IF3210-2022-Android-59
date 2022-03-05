@@ -1,10 +1,9 @@
 package com.pbd.perludilindungi.services.retrofit
 
-import com.google.zxing.qrcode.encoder.QRCode
 import com.pbd.perludilindungi.FaskesModel
 import com.pbd.perludilindungi.NewsModel
 import com.pbd.perludilindungi.ProvinceCityModel
-import com.pbd.perludilindungi.model.QrcodeRequestModel
+import com.pbd.perludilindungi.model.QrCodeResponseModel
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -32,5 +31,5 @@ interface ApiEndpoint {
         @Field("qrCode") qrCode: String,
         @Field("latitude") latitude : Double,
         @Field("longitude") longitude: Double
-    ) : Call<QrcodeRequestModel>
+    ) : Call<QrCodeResponseModel>
 }

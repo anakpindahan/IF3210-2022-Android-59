@@ -3,7 +3,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="covid_19_news">Covid-19 News</string>
-    <string name="title_activity_check_in">CheckInActivity</string>
+    <string name="title_activity_check_in">Check In</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
@@ -20,4 +20,5 @@
     <string name="temperature">Temperature :</string>
     <string name="temperature_val">%1$s \u2103</string>
     <string name="calibrating">Calibrating …</string>
+    <string name="title_activity_capture_portrait">CaptureActivityPortrait</string>
 </resources>

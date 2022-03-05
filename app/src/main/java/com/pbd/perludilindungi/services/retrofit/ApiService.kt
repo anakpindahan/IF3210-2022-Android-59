@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiService {
 
-    val BASE_URL = "https://perludilindungi.herokuapp.com/api/"
+    val BASE_URL = "https://perludilindungi.herokuapp.com/"
     val endpoint: ApiEndpoint
     get(){
         val interceptor = HttpLoggingInterceptor()
